@@ -1,4 +1,3 @@
-close all;
 clc;
 clear;
 
@@ -9,7 +8,7 @@ data(:,1:2) = columnsToRange0_1(data(:,1:2));
 train = data(1:70,:);
 test = data(71:100,:);
 
-alpha = 0.1;
+alpha = 0.001;
 epochs = 1000;
 
 function out = logistic(x)
@@ -29,8 +28,8 @@ function out = miss(expected, actual)
 end
 
 %Chute inicial de coeficientes
-%W = [1; 1; 1];
-W = 5*randn(3,1);
+W = [1; 1; 1];
+
 %Dados de treino
 X = [ones(1,70); train(:,1:2)'];
 Y = train(:,3);
@@ -40,7 +39,6 @@ Xt = [ones(1,30); test(:,1:2)'];
 Yt = test(:,3);
 
 eqm = zeros(epochs,1);
-eqm_train = zeros(epochs, 1);
 wrong_samples = zeros(epochs,1);
 
 for j=1:epochs
@@ -51,7 +49,6 @@ for j=1:epochs
   %Coeficientes no conjunto de treinamento
   for i=1:70
     error = Y(i)-logistic(W'*X(:,i));
-    eqm_train(j) = eqm_train(j) + error^2;
     W = W + alpha*error*X(:,i);
   end
   %Erro no conjunto de testes
@@ -95,7 +92,4 @@ figure(4);
 plot(wrong_samples);
 hold on;
 xlabel('Epoch');
-ylabel('# of points in wrong categories');
-
-figure(5);
-plot(eqm_train);  
+ylabel('# of points in wrong categories');  
