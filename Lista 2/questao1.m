@@ -31,6 +31,8 @@ end
 %Chute inicial de coeficientes
 W = [1; 1; 1];
 
+%Randomizar antes de pegar o treino e teste
+
 %Dados de treino
 X = [ones(1,70); train(:,1:2)'];
 Y = train(:,3);

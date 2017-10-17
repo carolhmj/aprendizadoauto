@@ -29,20 +29,12 @@ lambda = [0 0.01 0.25];
 avg_error_lambda = zeros(columns(lambda), 1);
 
 for i=1:columns(lambda) %Iterate over all the values of lambda
-  X = train(:,1:(M-1))';
-  Xt = test(:,1:(M-1))';
-  
-  Y = train(:,M);
-  Yt = test(:,M);
-  
-  #W = ones(M-1,1);
+  X = mappedData(:,1:(M-1))';
+  Y = mappedData(:,M);
   W = rand(M-1,1);
   
-  [W, errors] = stochasticLogisticRegressionWithErrors(W, X, Y, Xt, Yt, alpha, epochs, lambda(i));
-  avg_error_lambda(i) = mean(errors);
-  figure(2+i);
+  W = stochasticLogisticRegression(W, X, Y, alpha, epochs, lambda(i));
+  figure(1+i);
   plotDecisionBoundary(W,X',Y); 
 end 
 
-figure(2);
-plot(avg_error_lambda);  
