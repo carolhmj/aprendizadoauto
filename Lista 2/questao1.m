@@ -1,3 +1,4 @@
+close all;
 clc;
 clear;
 
@@ -60,9 +61,9 @@ for j=1:epochs
   eqm(j) = eqm(j)/30;
 end
 
-%figure(1);
-%hold on;
-%scatter(data(:,1), data(:,2), 3, data(:,3));
+figure(1);
+hold on;
+scatter(data(:,1), data(:,2), 3, data(:,3));
 
 figure(2);
 plot([-W(1)/W(2), 0], [0, -W(1)/W(3)], 'b');
