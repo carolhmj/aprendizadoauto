@@ -35,7 +35,8 @@ for i=1:columns(lambda) %Iterate over all the values of lambda
   Y = train(:,M);
   Yt = test(:,M);
   
-  W = ones(M-1,1);
+  #W = ones(M-1,1);
+  W = rand(M-1,1);
   
   [W, errors] = stochasticLogisticRegressionWithErrors(W, X, Y, Xt, Yt, alpha, epochs, lambda(i));
   avg_error_lambda(i) = mean(errors);
