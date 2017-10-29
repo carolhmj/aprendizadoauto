@@ -6,6 +6,10 @@ data = load('ex2data1.txt');
 %normalizing
 data(:,1:2) = columnsToRange0_1(data(:,1:2));
 
+%randomizing the order of the data
+perm = randperm(100);
+data(perm,:);
+
 alpha = 0.01;
 epochs = 1000;
 

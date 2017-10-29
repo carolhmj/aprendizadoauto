@@ -15,18 +15,11 @@ scatter(data(:,1), data(:,2), 3, data(:,3));
 %the category data
 mappedData = [mapFeature(data(:,1), data(:,2)) data(:,3)];
 
-%Separating the data in training and test sets
-train = mappedData(1:80,:);
-test = mappedData(81:118,:);
 %Important variables
-N = rows(train); %Number of data points
-Nt = rows(test);
-M = columns(train); %Number of attributes + classification
+M = columns(mappedData); %Number of attributes + classification
 alpha = 0.01;
 epochs = 1000;
 lambda = [0 0.01 0.25];
-
-avg_error_lambda = zeros(columns(lambda), 1);
 
 for i=1:columns(lambda) %Iterate over all the values of lambda
   X = mappedData(:,1:(M-1))';

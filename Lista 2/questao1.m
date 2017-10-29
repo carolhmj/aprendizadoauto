@@ -6,10 +6,14 @@ data = load('ex2data1.txt');
 %Normalizando as variaveis de entrada
 data(:,1:2) = columnsToRange0_1(data(:,1:2));
 
+%randomizing the order of the data
+perm = randperm(100);
+data(perm,:);
+
 train = data(1:70,:);
 test = data(71:100,:);
 
-alpha = 0.001;
+alpha = 0.01;
 epochs = 1000;
 
 function out = logistic(x)
