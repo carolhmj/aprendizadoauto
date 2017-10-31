@@ -1,5 +1,5 @@
 function out = columnsToRange0_1(data) 
-%Receives a vector and standardizes all of its columns to the [0,1] range
+%Receives a matrix and standardizes all of its columns to the [0,1] range
 out = zeros(rows(data), columns(data));
 n = columns(data);
 

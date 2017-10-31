@@ -4,7 +4,9 @@ clear;
 
 %Load matrices
 X = load("ex3data2.data");
-
+%X(:,1:13) = columnsToRange0_1(X(:,1:13));
+%X = X./100;
+X = columnsToRange0_1(X);
 %Randomize data, and separate in training, validation and test sets
 [Xrow, Xcol] = size(X);
 
@@ -25,9 +27,9 @@ testVal = X(407:506,14);
 testNum = rows(testAttr);
 
 %Defining variables
-hiddenNeurs = 5; %Number of hidden neurons
+hiddenNeurs = 10; %Number of hidden neurons
 outNeurs = 1; %Number of out neurons
-alpha = 0.001;
+alpha = 0.1;
 
 trainError = [];
 valError = [];
@@ -36,8 +38,8 @@ M = rand(outNeurs,hiddenNeurs+1);
 firstEpoch = true;
 %While the difference between the past validation error and the present
 %validation error is less than the tolerance, do
-while true
-%for m=1:2000
+%while true
+for m=1:200
   %Train the weights on training set
   epochTrainingError = zeros(trainNum,1);
   for i=1:trainNum
@@ -53,7 +55,7 @@ while true
     %Calculate the error
     E = trainVal(i,:)' - Y;
     
-    epochTrainingError(i) = E^2;
+    epochTrainingError(i) = E'*E;
     
     %Calculate the local gradients
     G_out = E; %Output gradient
@@ -80,14 +82,14 @@ while true
     Y = U_out;
     %Calculate the error
     E = valVal(j,:)' - Y;
-    epochValError(j) = E^2;
+    epochValError(j) = E'*E;
   end
   valError = [valError; mean(epochValError)];
   
   if (!firstEpoch)
     %If the error grows, end the training
     if (valError(end) - valError(end-1) > 0)
-      break;
+      %break;
     end 
   end
   firstEpoch = false;  

@@ -5,6 +5,8 @@ clear;
 %Load matrices
 load("ex3data1.mat");
 
+%Normalize attributes
+X = X./100;
 %Randomize data, and separate in training, validation and test sets
 [Xrow, Xcol] = size(X);
 [Trow, Tcol] = size(T);
@@ -29,7 +31,7 @@ testNum = rows(testAttr);
 %Defining variables
 hiddenNeurs = 20; %Number of hidden neurons
 outNeurs = 10; %Number of out neurons
-alpha = 0.001;
+alpha = 0.1;
 
 tolerancePassed = false;
 prevMediumError = [];
@@ -41,7 +43,7 @@ firstEpoch = true;
 %While the difference between the past validation error and the present
 %validation error is less than the tolerance, do
 while true
-%for m=1:2000
+%for m=1:50
   %Train the weights on training set
   epochTrainingError = zeros(trainNum, 1);
   for i=1:trainNum
