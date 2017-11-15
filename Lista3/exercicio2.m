@@ -2,10 +2,8 @@ close all;
 clc;
 clear;
 
-%Load matrices
+%Load matrices and normalize them
 X = load("ex3data2.data");
-%X(:,1:13) = columnsToRange0_1(X(:,1:13));
-%X = X./100;
 X = columnsToRange0_1(X);
 %Randomize data, and separate in training, validation and test sets
 [Xrow, Xcol] = size(X);
@@ -16,7 +14,6 @@ X(perm,:);
 trainAttr = X(1:306,1:13);
 trainVal = X(1:306,14);
 trainNum = rows(trainAttr);
-
 
 valAttr = X(307:406,1:13);
 valVal = X(307:406,14);
@@ -31,15 +28,18 @@ hiddenNeurs = 10; %Number of hidden neurons
 outNeurs = 1; %Number of out neurons
 alpha = 0.1;
 
-trainError = [];
-valError = [];
-W = rand(hiddenNeurs,Xcol);
+increasedErrors = 0; %Counts the number of times the error increased
+increasedErrorsLimit = 5; %The maximum number of times the error can increase
+
+trainError = []; %Keep the errors on training set
+valError = []; %Keep the errors on validation set
+W = rand(hiddenNeurs,Xcol); 
 M = rand(outNeurs,hiddenNeurs+1);
 firstEpoch = true;
 %While the difference between the past validation error and the present
 %validation error is less than the tolerance, do
-%while true
-for m=1:200
+while true
+%for m=1:200
   %Train the weights on training set
   epochTrainingError = zeros(trainNum,1);
   for i=1:trainNum
@@ -87,9 +87,13 @@ for m=1:200
   valError = [valError; mean(epochValError)];
   
   if (!firstEpoch)
-    %If the error grows, end the training
     if (valError(end) - valError(end-1) > 0)
-      %break;
+      increasedErrors++;
+      if (increasedErrors >= increasedErrorsLimit) 
+        break;
+      end
+    else
+      increasedErrors = 0;   
     end 
   end
   firstEpoch = false;  

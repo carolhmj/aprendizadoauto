@@ -6,7 +6,7 @@ clear;
 load("ex3data1.mat");
 
 %Normalize attributes
-X = X./100;
+X = columnsToRange0_1(X);
 %Randomize data, and separate in training, validation and test sets
 [Xrow, Xcol] = size(X);
 [Trow, Tcol] = size(T);
@@ -33,7 +33,9 @@ hiddenNeurs = 20; %Number of hidden neurons
 outNeurs = 10; %Number of out neurons
 alpha = 0.1;
 
-tolerancePassed = false;
+increasedErrors = 0; %Counts the number of times the error increased
+increasedErrorsLimit = 50; %The maximum number of times the error can increase
+
 prevMediumError = [];
 trainError = [];
 valError = [];
@@ -89,9 +91,13 @@ while true
   valError = [valError; mean(epochValError)];
   
   if (!firstEpoch)
-    %If the error grows, end the training
     if (valError(end) - valError(end-1) > 0)
-      break;
+      increasedErrors++;
+      if (increasedErrors >= increasedErrorsLimit) 
+        break;
+      end
+    else
+      increasedErrors = 0;   
     end 
   end
   firstEpoch = false;  

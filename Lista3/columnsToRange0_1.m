@@ -4,5 +4,9 @@ out = zeros(rows(data), columns(data));
 n = columns(data);
 
 for i = 1:n
-  out(:,i) = data(:,i)/max(data(:,i));
+  maxVal = max(data(:,i));
+  if (maxVal < 0.0005)
+    maxVal = 1;
+  end
+  out(:,i) = data(:,i)/maxVal;
 end
